@@ -1,6 +1,6 @@
 """from dataclasses import dataclass"""
 import copy
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 SIZE = 6
 
