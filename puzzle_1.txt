@@ -1,0 +1,6 @@
+0 g a a f 0 
+0 g b b f d
+x x e 0 f d
+0 0 e c c 0
+0 0 e 0 0 0
+0 0 0 0 0 0

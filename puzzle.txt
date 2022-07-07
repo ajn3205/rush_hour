@@ -1,0 +1,6 @@
+c c 0 a 0 d 
+f 0 0 a b d
+f x x a b g
+f h h h b g
+e 0 0 0 i i
+e 0 0 0 j j

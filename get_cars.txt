@@ -1,0 +1,33 @@
+def get_cars():
+    cars = []
+    cars.append(Car("x", 2, 2, 1, True))
+    cars.append(Car("a", 3, 0, 3, False))
+    cars.append(Car("b", 3, 1, 4, False))
+    cars.append(Car("c", 2, 0, 0, True))
+    cars.append(Car("d", 2, 0, 5, False))
+    cars.append(Car("e", 2, 4, 0, False))
+    cars.append(Car("f", 3, 1, 0, False))
+    cars.append(Car("g", 2, 2, 5, False))
+    cars.append(Car("h", 3, 3, 1, True))
+    cars.append(Car("i", 2, 4, 4, True))
+    cars.append(Car("j", 2, 5, 4, True))
+    return cars
+def get_cars_1():
+    cars = []
+    cars.append(Car("x", 2, 2, 0, True))
+    cars.append(Car("a", 2, 0, 2, True))
+    cars.append(Car("b", 2, 1, 2, True))
+    cars.append(Car("c", 2, 3, 3, True))
+    cars.append(Car("d", 2, 1, 5, False))
+    cars.append(Car("e", 3, 2, 2, False))
+    cars.append(Car("f", 3, 0, 4, False))
+    cars.append(Car("g", 2, 0, 1, False))
+    return cars
+def get_cars_2():
+    cars = []
+    cars.append(Car("x", 2, 2, 0, True))
+    cars.append(Car("a", 2, 4, 2, True))
+    cars.append(Car("b", 2, 4, 1, False))
+    cars.append(Car("c", 3, 0, 2, False))
+    cars.append(Car("d", 3, 3, 4, False))
+    return cars
