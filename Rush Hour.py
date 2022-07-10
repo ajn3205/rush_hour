@@ -85,7 +85,8 @@ class Car:
 class Board:
     """ A board represents the state of a board and consists of
     a list of car objects, a grid (2D array of char),
-    and the parent of the board (used in solve_iter to find path). """
+    and the parent of the board (used in solve_iter
+    and to find the solution path). """
     grid = [["0" for i in range(SIZE)] for j in range(SIZE)]
     cars = []
     parent = None
