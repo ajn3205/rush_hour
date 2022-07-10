@@ -83,7 +83,7 @@ class Car:
         self.horizontal = bool(horizontal)
 
 class Board:
-    """ A Board represents the state of a board and consists of
+    """ A board represents the state of a board and consists of
     a list of car objects, a grid (2D array of char),
     and the parent of the board (used in solve_iter to find path). """
     grid = [["0" for i in range(SIZE)] for j in range(SIZE)]
@@ -93,11 +93,7 @@ class Board:
         self.grid = [["0" for i in range(SIZE)] for j in range(SIZE)]
         self.cars = []
 
-    def __hash__(self):
-        tgrid = tuple(tuple(cell for cell in row) for row in self.grid)
-        return hash(tgrid)
-
-def is_solved(grid):
+def is_solved(grid: List[List[str]]):
     """ Checks if the grid of a board is in a solved state. """
     if grid[2][5] == "x":
         return True
@@ -165,7 +161,10 @@ def get_neighbors(board: Board) -> List[Board]:
                     board.grid[car.row + car.length - 1][car.col] = car.id
     return neighbors
 
-def cars_to_grid(board):
+def cars_to_grid(board: Board):
+    """ Turns the list of cars within a board to a grid
+    and reassigns the board's grid to that. """
+    #assumes list of cars is correct
     for car in board.cars:
         if car.horizontal:
             for i in range(0, car.length):
@@ -174,7 +173,9 @@ def cars_to_grid(board):
             for i in range(0, car.length):
                 board.grid[car.row+i][car.col] = car.id
 
-def grid_to_cars(board):
+def grid_to_cars(board: Board):
+    """ Turns the grid within a board to a list of cars
+    and reassigns the board's list of cars to that. """
     # assumes grid is correct
     grid = board.grid
     symbols = ["0"]
@@ -202,6 +203,8 @@ def grid_to_cars(board):
     board.cars = cars
 
 def board_to_path(solved_state: Board) -> Optional[List[List[List[str]]]]:
+    """ Uses the solved board's parents to constructed the list of grids
+    in the original board's solution path. """
     if solved_state:
         solution_path = []
         solution_path.append(solved_state.grid)
@@ -214,9 +217,15 @@ def board_to_path(solved_state: Board) -> Optional[List[List[List[str]]]]:
         return None
 
 def shorten_path(path: List[List[List[str]]]) -> List[List[List[str]]]:
+    """ An algorithm which striclty decreases the amount of states in
+    a boards solution path by identifying if a state further along in the path
+    can be reached by one move from the current state. This proccess is repeated
+    with all states in the path with the intent to shorten the overall path.
+    It works with DFS algorithms and BFS algorithms but only can shorten DFS found paths.
+    It takes a list of grids and returns a list of grids. """
     #path must not be None
     shortened_path = [path[0]]
-    #while last state is shortened path is not solved state, find next state to add to shortened_path
+    #while last state in shortened path is not solved state, find next state to add to shortened_path
     while shortened_path[len(shortened_path)-1] != path[len(path)-1]:
         cur_state = shortened_path[len(shortened_path)-1]
         #start checking for one-move-off state at the back of path going to the front
@@ -238,18 +247,22 @@ def shorten_path(path: List[List[List[str]]]) -> List[List[List[str]]]:
                 cur_next_i -= 1
     return shortened_path
 
-def print_grid(grid):
+def print_grid(grid: List[List[str]]):
+    """ Utility function to print the grid of a board. """
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             print(grid[i][j] + " ", end="")
-        print()
-        
-def print_path(path):
+        print()      
+
+def print_path(path: List[List[List[str]]]):
+    """ Utility function to print a list of grids in a path. """
     for i in range(len(path)):
         print(str(i + 1) + ":")
         print_grid(path[i])
 
 def read_file(filename: str) -> Board:
+    """ Utility function to read a file which contains a grid
+    and puts the information into a board to be returned. """
     b = Board()
     with open(filename) as f:
         for i in range(SIZE):
