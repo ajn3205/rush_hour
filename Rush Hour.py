@@ -5,6 +5,7 @@ from typing import List, Optional, Tuple
 SIZE = 6
 
 def main():
+    #gets the information for the puzzle into a board variable
     filename = "puzzle.txt"
     board = read_file(filename)
     print_grid(board.grid)
@@ -18,10 +19,13 @@ def main():
     if solution_path == None:
         print("no solution found")
         return
-    solution_path = shorten_path(solution_path)
+    #solution_path = shorten_path(solution_path)
     print_path(solution_path)
 
 def solve_recur(board: "Board", history: List["Board"]) -> Tuple[List[List[str]], bool]:
+    """ Solves the curent board state recursively (if possible)
+    and returns a list of grids in the order in which they appear
+    in the solution path as well as a solved boolean. """
     if board.grid in history:
         path = []
         return path, False
@@ -43,7 +47,12 @@ def solve_recur(board: "Board", history: List["Board"]) -> Tuple[List[List[str]]
     return path, False
 
 def solve_iter(board: "Board") -> Optional["Board"]:
+    """ Solves the curent board state iteratively (if possible)
+    and sets the parent of each board in the solution path.
+    It returns the final solved board state or None if no solution. """
+    #all previously visited board states
     history: List[Board] = []
+    #todo is a to-check queue
     todo = [board]
     while todo:
         b = todo.pop(0)
@@ -59,6 +68,7 @@ def solve_iter(board: "Board") -> Optional["Board"]:
     return None
 
 class Car:
+    """ A car represents the placement and orentation of a single car in the game. """
     id = ""
     length = 0
     row = 0
@@ -73,8 +83,9 @@ class Car:
         self.horizontal = bool(horizontal)
 
 class Board:
-    """ A Board represents the state of a board and is represented by
-    a list of car objects and a grid (2D array of char) """
+    """ A Board represents the state of a board and consists of
+    a list of car objects, a grid (2D array of char),
+    and the parent of the board (used in solve_iter to find path). """
     grid = [["0" for i in range(SIZE)] for j in range(SIZE)]
     cars = []
     parent = None
@@ -87,14 +98,16 @@ class Board:
         return hash(tgrid)
 
 def is_solved(grid):
+    """ Checks if the grid of a board is in a solved state. """
     if grid[2][5] == "x":
         return True
     else:
         return False
 
 def get_neighbors(board: Board) -> List[Board]:
-    """ get neighbors return all the neighors
-    returns all board states one move away from the current board state """
+    """ Gets and returns all neighbors of a current Board in a list.
+    A neighbor is a board state that is one move away (1 car in one direction for 1 tile)
+    from the current board state. """
     #does not include history
     neighbors = []
     for ii, car in enumerate(board.cars):
