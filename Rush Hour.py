@@ -2,24 +2,25 @@
 import copy
 from typing import List, Optional, Tuple
 
+from numpy import short
+
 SIZE = 6
 
 def main():
-    #gets the information for the puzzle into a board variable
+    #reads puzle file and converts it into a board
     filename = "puzzle.txt"
     board = read_file(filename)
     print_grid(board.grid)
     print()
 
-    #history = []
-    #solution_path, b = solve_recur(board, history)
-
+    #solves the board and finds the path
     solved_board = solve_iter(board)
-    solution_path = board_to_path(solved_board)
+    solution_path = shorten_path(board_to_path(solved_board))
     if solution_path == None:
         print("no solution found")
         return
-    #solution_path = shorten_path(solution_path)
+
+    #prints the path
     print_path(solution_path)
 
 def solve_recur(board: "Board", history: List["Board"]) -> Tuple[List[List[str]], bool]:
@@ -52,10 +53,10 @@ def solve_iter(board: "Board") -> Optional["Board"]:
     It returns the final solved board state or None if no solution. """
     #all previously visited board states
     history: List[Board] = []
-    #todo is a to-check queue
+    #a to-check queue
     todo = [board]
     while todo:
-        b = todo.pop(0)
+        b = todo.pop(len(todo)-1)
         if b.grid not in history:
             history.append(b.grid)
             for n in get_neighbors(b):
