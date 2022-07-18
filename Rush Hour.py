@@ -1,8 +1,5 @@
-"""from dataclasses import dataclass"""
 import copy
 from typing import List, Optional, Tuple
-
-from numpy import short
 
 SIZE = 6
 
@@ -15,7 +12,7 @@ def main():
 
     #solves the board and finds the path
     solved_board = solve_iter(board)
-    solution_path = shorten_path(board_to_path(solved_board))
+    solution_path = board_to_path(solved_board)
     if solution_path == None:
         print("no solution found")
         return
@@ -56,7 +53,7 @@ def solve_iter(board: "Board") -> Optional["Board"]:
     #a to-check queue
     todo = [board]
     while todo:
-        b = todo.pop(len(todo)-1)
+        b = todo.pop(0)
         if b.grid not in history:
             history.append(b.grid)
             for n in get_neighbors(b):
